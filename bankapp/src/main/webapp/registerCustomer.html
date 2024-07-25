@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Customer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&family=Lobster&display=swap">
+    <style>
+        /* Reset default margin and padding */
+        body, h1, h2, h3, p, input, label, form, html {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Set up background and font */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to top, #2b5876 0%, #4e4376 100%);
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Wrapper for entire page content */
+        .wrapper {
+            display: flex;
+            height: 100%;
+            margin: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex-direction: row; /* Keep content side-by-side */
+        }
+
+        /* Header styling */
+        header {
+            background-color: #34495e;
+            color: #fff;
+            padding: 15px 30px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Lobster', cursive;
+        }
+
+        /* Navigation styling */
+        nav {
+            background-color: #2c3e50;
+            padding: 20px 0;
+            text-align: center;
+            width: 220px; /* Fixed width for desktop view */
+            height: 100%;
+            position: relative;
+            overflow-x: hidden;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        /* Navigation links */
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            padding: 12px 16px;
+            margin: 10px 0;
+            transition: background-color 0.3s, padding-left 0.3s, color 0.3s;
+            font-family: 'Open Sans', sans-serif;
+            text-align: left;
+        }
+
+        nav a i {
+            margin-right: 10px;
+        }
+
+        nav a:hover {
+            background-color: #1abc9c;
+            padding-left: 24px;
+            color: #fff;
+        }
+
+        /* Main content styling */
+        main {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Enable vertical scrolling for main content */
+            height: 100%; /* Ensure main content fills the height */
+            position: relative; /* Ensure relative positioning for numbered items */
+        }
+
+        /* Section styling */
+        section {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            font-family: 'Open Sans', sans-serif;
+            animation: fadeInUp 1s ease-in-out;
+            flex-grow: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            position: relative; /* Ensure relative positioning for numbered items */
+        }
+
+        section h2 {
+            font-family: 'Lobster', cursive;
+        }
+
+        /* Card styling */
+        .card {
+            flex-basis: calc(30% - 20px);
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card i {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #34495e;
+        }
+
+        .card h3 {
+            font-family: 'Open Sans', sans-serif;
+            margin-bottom: 5px;
+            font-size: 1.5em;
+        }
+
+        /* Input styling */
+        .input-container {
+            flex-basis: 100%; /* Full width for each input row */
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap; /* Allow inputs to wrap on smaller screens */
+        }
+
+        .input-container > div {
+            flex-basis: calc(33.33% - 20px); /* 3 columns with spacing */
+            margin-right: 20px;
+        }
+
+        .input-label {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            flex-basis: 150px; /* Fixed width for labels */
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        input[type="text"], input[type="email"], input[type="number"], input[type="date"], input[type="file"], input[type="submit"] {
+            flex-grow: 1;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="file"]:focus {
+            outline: none;
+            border-color: #1abc9c;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px; 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; 
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            background-color: #1abc9c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 8px 20px; /* Adjusted padding for smaller width */
+            border-radius: 4px;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            width: auto; /* Ensures button width adjusts */
+            max-width: 150px; /* Limit max width */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #148f77;
+        }
+
+        /* Numbered items styling */
+        .numbered-items {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .numbered-item {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #34495e;
+            color: #fff;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            animation: fadeInUp 1s ease-in-out;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <nav>
+            <a href="adminList.jsp"><i class="fas fa-home"></i> Home</a>
+            <a href="registerCustomer.html"><i class="fas fa-user-plus"></i> Register Customer</a>
+            <a href="customerAccounts.jsp"><i class="fas fa-search"></i> Search Customer</a>
+            <a href="accountHolders.jsp"><i class="fas fa-users"></i> All Customers</a>
+            <a href="adminLogin.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+        <main>
+            <header>
+                <h1>Welcome to Admin Home Page</h1>
+            </header>
+            <section id="registration-form">
+                <h2>Register Customer</h2>
+                <form id="registerForm" action="RegisterCustomerServlet" method="post" enctype="multipart/form-data">
+                    <!-- Form fields as before -->
+                    <div class="input-container">
+                        <div>
+                            <label for="fullName" class="input-label">Full Name:</label>
+                            <input type="text" id="fullName" name="fullName" class="input" required>
+                        </div>
+                        <div>
+                            <label for="address" class="input-label">Address:</label>
+                            <input type="text" id="address" name="address" class="input" required>
+                        </div>
+                        <div>
+                            <label for="mobileNo" class="input-label">Mobile No:</label>
+                            <input type="text" id="mobileNo" name="mobileNo" class="input" required>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div>
+                            <label for="emailId" class="input-label">Email ID:</label>
+                            <input type="email" id="emailId" name="emailId" class="input" required>
+                        </div>
+                        <div>
+                            <label for="accountType" class="input-label">Account Type:</label>
+                            <input type="text" id="accountType" name="accountType" class="input" required>
+                        </div>
+                        <div>
+                            <label for="initialBalance" class="input-label">Initial Balance:</label>
+                            <input type="number" id="initialBalance" name="initialBalance" class="input" required>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <div>
+                            <label for="dateOfBirth" class="input-label">Date of Birth:</label>
+                            <input type="date" id="dateOfBirth" name="dateOfBirth" class="input" required>
+                        </div>
+                        <div>
+                            <label for="idProof" class="input-label">ID Proof:</label>
+                            <input type="text" id="idProof" name="idProof" class="input" required>
+                        </div>
+                        <div>
+                            <label for="photo" class="input-label">Upload Photo:</label>
+                            <input type="file" id="photo" name="photo" class="input" required>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <input type="submit" value="Register" class="input">
+                    </div>
+                </form>
+            </section>
+            
+            <footer>
+                &copy; 2024 Admin Dashboard. All rights reserved.
+            </footer>
+        </main>
+    </div>
+
+    <!-- Modal for displaying messages -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modal-message"></p>
+        </div>
+    </div>
+
+    <script>
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+
+    // Form submission handler
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        var formData = new FormData(this);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'RegisterCustomerServlet', true);
+        xhr.onload = function() {
+            var responseText = xhr.responseText;
+            var modalMessage = document.getElementById('modal-message');
+            modalMessage.textContent = responseText; // Display response in modal
+            modal.style.display = "block"; // Show the modal
+        };
+        xhr.send(formData); // Send form data to the server
+    });
+
+    // Close the modal when the user clicks on <span> (x)
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Close the modal when the user clicks anywhere outside of the modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+        // Modal setup
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Close the modal when the user clicks on <span> (x)
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close the modal when the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Form validation and submission
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            // Validate ID proof
+            var idProof = document.getElementById('idProof').value;
+            if (idProof.length !== 12 || isNaN(idProof)) {
+                alert('ID Proof must be a 12-digit number.');
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            // Validate mobile number
+            var mobileNo = document.getElementById('mobileNo').value;
+            if (mobileNo.length !== 10 || isNaN(mobileNo)) {
+                alert('Mobile number must be a 10-digit number.');
+                event.preventDefault();
+                return;
+            }
+
+            // Validate initial balance
+            var initialBalance = document.getElementById('initialBalance').value;
+            if (isNaN(initialBalance) || initialBalance <= 999) {
+                alert('Initial balance must be a number greater than 999.');
+                event.preventDefault();
+                return;
+            }
+
+            // If validation passes, submit the form
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'RegisterCustomerServlet', true);
+            xhr.onload = function() {
+                var responseText = xhr.responseText;
+                var modalMessage = document.getElementById('modal-message');
+                modalMessage.textContent = responseText; // Display response in modal
+                modal.style.display = "block"; // Show the modal
+            };
+            xhr.send(formData); // Send form data to the server
+        });
+    </script>
+</body>
+</html>
